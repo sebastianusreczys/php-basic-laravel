@@ -2,35 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use \App\Models\Member;
+use \App\Models\User;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class AdminController extends Controller
 {
     // buat menampilkan data member
     public function index()
     {
-        $member = Member::all();
-        return view('admin.index', ['members' => $member]);
+        $user = User::all();
+        return view('admin.index', ['users' => $user]);
     }
     // untuk edit data member
-    public function edit(Member $member)
+    public function edit(User $user)
     {
-        return view('admin.edit', ['members' => $member]);
+        return view('admin.edit', ['users' => $user]);
     }
-    public function update(Request $request, Member $member)
+    public function update(Request $request, User $user)
     {
-        Member::where('id', $member->id)
+        User::where('id', $user->id)
             ->update([
-                'nama' => $request->nama,
+                'nama' => $request->name,
+                'password' => $request->password,
                 'no_hp' => $request->nohandphone,
-                'tanggal_lahir' => $request->tangal_lahir,
+                'tanggal_lahir' => $request->tangallahir,
                 'email' => $request->email,
-                'jenis_kelamin' => $request->jenis_kelamin,
+                'jenis_kelamin' => $request->jeniskelamin,
                 'no_ktp' => $request->noktp,
-                'foto' => $request->foto
+                'foto' => $request->gambar
             ]);
-        return redirect('/admin/view');
+        return redirect('admin/view');
+    }
+    public function delete(User $user)
+    {
+        User::destroy($user->id);
+        return Redirect('admin/view');
     }
 }

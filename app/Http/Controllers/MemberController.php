@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Member;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use PhpParser\Node\Stmt\Echo_;
 
 class MemberController extends Controller
@@ -16,7 +18,8 @@ class MemberController extends Controller
      */
     public function index()
     {
-        // menampilkan form input
+        $user = User::all();
+        return view('member.list', ['users' => $user]);
     }
 
     /**
@@ -26,7 +29,6 @@ class MemberController extends Controller
      */
     public function create()
     {
-        // menampilkan form
         return view('member.form');
     }
 
@@ -38,33 +40,19 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
+        $user = new User();
+        $user->nama = $request->name;
 
-        // $validated = $request->validate([
-        //     'name' => ['required'],
-        //     'password' => ['required'],
-        //     'no_hp' => ['required'],
-        //     'tanggal_lahir' => ['required'],
-        //     'email' => ['required|email:dns|unique:members'],
-        //     'jenis_kelamin' => ['required'],
-        //     'no_ktp' => ['required'],
-        //     'foto' => ['required']
-        // ]);
-
-        // $validated['password'] = Hash::make($validated['password']);
-        // Member::created($validated);
-
-
-        $member = new Member();
-        $member->nama = $request->name;
-        $member->password = $request->password;
-        $member->no_hp = $request->nohandphone;
-        $member->tanggal_lahir = $request->tangallahir;
-        $member->email = $request->email;
-        $member->jenis_kelamin = $request->jeniskelamin;
-        $member->no_ktp = $request->noktp;
-        $member->foto = $request->gambar;
-        $member->save();
-        return redirect('member.konfirmasi');
+        $user->password = Crypt::encryptString($request->password);
+        // $user->password = Hash::make($request->password);
+        $user->no_hp = $request->nohandphone;
+        $user->tanggal_lahir = $request->tangallahir;
+        $user->email = $request->email;
+        $user->jenis_kelamin = $request->jeniskelamin;
+        $user->no_ktp = $request->noktp;
+        $user->foto = $request->gambar;
+        $user->save();
+        return redirect('member/list');
     }
 
     /**
@@ -84,9 +72,9 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        return view('member.edit', ['users' => $user]);
     }
 
     /**
@@ -96,9 +84,20 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        User::where('id', $user->id)
+            ->update([
+                'nama' => $request->name,
+                'password' => $request->password,
+                'no_hp' => $request->nohandphone,
+                'tanggal_lahir' => $request->tangallahir,
+                'email' => $request->email,
+                'jenis_kelamin' => $request->jeniskelamin,
+                'no_ktp' => $request->noktp,
+                'foto' => $request->gambar
+            ]);
+        return redirect('member/list');
     }
 
     /**
@@ -107,8 +106,9 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        User::destroy($user->id);
+        return Redirect('/member/list');
     }
 }

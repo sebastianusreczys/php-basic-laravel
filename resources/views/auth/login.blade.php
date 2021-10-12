@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col-6">
-                <form action="/login" method="post">
+                <form action="/auth/login" method="post">
                     @csrf
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>

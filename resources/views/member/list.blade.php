@@ -16,8 +16,8 @@
 
 <body>
     <div class="container mt-5">
+        <h1>Daftar Member</h1>
         <table class="table table-responsive table-striped table-hover table-bordered">
-            <h1>Daftar Data Member</h1>
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -37,14 +37,12 @@
                         <th scope="row">{{ $loop->iteration }}</th>
                         <td>{{ $m->nama }}</td>
                         <td>{{ $m->no_hp }}</td>
-                        <td>t{{ $m->tanggal_lahir }}ir</td>
+                        <td>{{ $m->tanggal_lahir }}</td>
                         <td>{{ $m->email }}</td>
                         <td>{{ $m->jenis_kelamin }}</td>
                         <td>{{ $m->no_ktp }}</td>
                         <td>{{ $m->foto }}</td>
                         <td>
-                            {{-- <a href="{{ $m->id }}/edit"><span class="badge rounded-pill bg-success"> <span
-                                        class="fa fa-edit"></span></span></a> --}}
                             <button class="btn btn-success"><a href="{{ $m->id }}/edit">
                                     <i class="fa fa-edit text-white"></i> </a></button>
                             <i>

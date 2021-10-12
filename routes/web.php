@@ -17,12 +17,20 @@ use App\Http\Controllers\LoginController;
 Route::get('/', function () {
     return view('index');
 });
-Route::get('/member/form', 'App\Http\Controllers\MemberController@create');
-Route::post('/member', 'App\Http\Controllers\MemberController@store');
 
-Route::get('/login', [LoginController::class, 'index']);
-Route::post('/login', [LoginController::class, 'authenticate']);
+// login route
+Route::get('/auth/login', 'App\Http\Controllers\LoginController@index');
+Route::post('/auth/login', 'App\Http\Controllers\LoginController@authenticate');
 
 Route::get('/admin/view', 'App\Http\Controllers\AdminController@index');
-Route::get('/admin/{member}/edit', 'App\Http\Controllers\AdminController@edit');
-Route::patch('/admin/{member}', 'App\Http\Controllers\AdminController@update');
+Route::get('/admin/{user}/edit', 'App\Http\Controllers\AdminController@edit');
+Route::patch('/admin/{user}', 'App\Http\Controllers\AdminController@update');
+Route::delete('/admin/{user}', 'App\Http\Controllers\AdminController@delete');
+
+// route member
+Route::get('/member/list', 'App\Http\Controllers\MemberController@index');
+Route::get('/member/{user}/edit', 'App\Http\Controllers\MemberController@edit');
+Route::patch('/member/{user}', 'App\Http\Controllers\MemberController@update');
+Route::get('/member/pendaftaran', 'App\Http\Controllers\MemberController@create');
+Route::post('/member/pendaftaran', 'App\Http\Controllers\MemberController@store');
+Route::delete('/member/{user}', 'App\Http\Controllers\MemberController@destroy');

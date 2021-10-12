@@ -23,8 +23,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link" href="{{ url('/member/form') }}">Daftar Member</a>
-                    <a class="nav-link" href="{{ url('/login') }}">Login</a>
+                    <a class="nav-link" href="{{ url('/member/pendaftaran') }}">Daftar Member</a>
+                    <a class="nav-link" href="{{ url('/auth/login') }}">Login</a>
                 </div>
             </div>
         </div>
