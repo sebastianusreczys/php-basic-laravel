@@ -1,11 +1,13 @@
-@extends('layout/main')
-@section('title', 'Form Pendaftaran Member')
+@extends('layout.admin')
+
+@section('title', 'Form Tambah')
+
 @section('container')
     <div class="container">
         <div class="row">
             <div class="col-6">
-                <h2>Form Daftar Member</h2>
-                <form action="/member/pendaftaran" method="post" enctype="multipart/form-data">
+                <h2>Form Tambah</h2>
+                <form action="/admin/create" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label">Nama</label>

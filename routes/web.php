@@ -26,6 +26,8 @@ Route::get('/admin/view', 'App\Http\Controllers\AdminController@index');
 Route::get('/admin/{user}/edit', 'App\Http\Controllers\AdminController@edit');
 Route::patch('/admin/{user}', 'App\Http\Controllers\AdminController@update');
 Route::delete('/admin/{user}', 'App\Http\Controllers\AdminController@delete');
+Route::post('/admin/create', 'App\Http\Controllers\AdminController@store');
+Route::get('/admin/create', 'App\Http\Controllers\AdminController@create');
 
 // route member
 Route::get('/member/list', 'App\Http\Controllers\MemberController@index');

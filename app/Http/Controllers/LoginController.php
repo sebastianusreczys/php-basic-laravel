@@ -16,28 +16,14 @@ class LoginController extends Controller
     }
     public function authenticate(Request $request)
     {
-        // $decrypted = $request->input('password');
-        // $encrip = Crypt::encryptString($request->password);
-        // $decrypted2 = Crypt::decryptString($encrip);
-        // $user      = User::where('email', $request->email)->exists();
-        // if ($user) {
-        //     // if ($decrypted == $encrip) {
-        //     return "user ada";
-        //     // Auth::login($user);
-        //     // return $encrip .  '<br>' . $decrypted .  '<br>' . $decrypted2;
-        // }
-        // }
+        $user = User::where('email', $request->email)->first();
+        $decrypted = Crypt::decryptString($user->password);        // $decrypted2 = Crypt::decryptString($encrip);
 
-        // return $this->sendFailedLoginResponse($request);
-        $credentials = $request->validate([
-            'email' => 'required|email:dns',
-            'password' => 'required'
-        ]);
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return "berhasil";
+        if ($user->exists()) {
+            if ($decrypted == $request->password) {
+                $request->session()->put('username', $request->email);
+                return view('member/list');
+            }
         }
-
-        return "gagal";
     }
 }

@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col-6">
-                <form action="/member/{{ $users->id }}" method="post">
+                <form action="/member/{{ $users->id }}" method="post" enctype="multipart/form-data">
                     @method('patch')
                     @csrf
                     <div class="mb-3">
@@ -45,7 +45,16 @@
                     </div>
                     <div class="mb-3">
                         <label for="gambar" class="form-label">Gambar</label>
-                        <input type="text" class="form-control" name="gambar" id="gambar" value="{{ $users->foto }}">
+                        <input type="hidden" name="oldImage" value="{{ $users->foto }}">
+                        @if ($users->foto)
+                            <img src="{{ asset('storage/' . $users->foto) }}" alt=""
+                                class="img-fluid img-preview mb-3 col-sm-5 d-block">
+                        @else
+                            <img class="img-fluid img-preview mb-3 col-sm-5" alt="">
+                        @endif
+                        <input type="file" class="form-control  @error('gambar') is-invalid @enderror " name="gambar"
+                            id="gambar" onchange="previewImage()">
+                        @error('gambar')<div class=" invalid-feedback"> {{ $message }}</div> @enderror
                     </div>
                     <div class="d-grid gap-2 col-6 mx-auto">
                         <button type="submit" class="btn btn-primary" type="button">Ubah data member</button>
@@ -61,3 +70,17 @@
         
     </div> --}}
 @endsection
+<script>
+    function previewImage() {
+        const gambar = document.querySelector('#gambar');
+        const imgPreview = document.querySelector('.img-preview');
+        imgPreview.style.display = 'block';
+
+        const ofReader = new FileReader();
+        ofReader.readAsDataURL(gambar.files[0]);
+
+        ofReader.onload = function(oFREvent) {
+            imgPreview.src = oFREvent.target.result;
+        }
+    }
+</script>
