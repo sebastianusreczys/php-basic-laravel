@@ -19,22 +19,24 @@ Route::get('/', function () {
 });
 
 // login route
-Route::get('/auth/login', 'App\Http\Controllers\LoginController@index');
+Route::get('/auth/login', 'App\Http\Controllers\LoginController@index')->name('login');
+Route::get('/auth', 'App\Http\Controllers\LoginController@authenticate')->name('auth');
 Route::post('/auth/login', 'App\Http\Controllers\LoginController@authenticate');
-Route::post('/auth/logout', 'App\Http\Controllers\LoginController@authenticate');
+Route::get('/auth/logout', 'App\Http\Controllers\LoginController@logout');
 
-Route::get('/admin/view', 'App\Http\Controllers\AdminController@index');
-Route::get('/admin/{user}/edit', 'App\Http\Controllers\AdminController@edit');
-Route::patch('/admin/{user}', 'App\Http\Controllers\AdminController@update');
-Route::delete('/admin/{user}', 'App\Http\Controllers\AdminController@delete');
+Route::get('/admin', 'App\Http\Controllers\AdminController@index')->name('admin');
+Route::patch('/admin/member/{user}', 'App\Http\Controllers\AdminController@update');
+Route::delete('/admin/member/{user}', 'App\Http\Controllers\AdminController@delete');
 Route::post('/admin/create', 'App\Http\Controllers\AdminController@store');
 Route::get('/admin/create', 'App\Http\Controllers\AdminController@create');
+Route::get('/admin/members', 'App\Http\Controllers\MemberController@index');
+Route::get('/admin/members/{user}/edit', 'App\Http\Controllers\AdminController@edit');
 
 // route member
-Route::get('/member/list', 'App\Http\Controllers\MemberController@index')->name('list');
-Route::get('/member/{user}/edit', 'App\Http\Controllers\MemberController@edit');
+Route::get('/member/{user}/edit', 'App\Http\Controllers\MemberController@edit')->name('member-edit');
 Route::patch('/member/{user}', 'App\Http\Controllers\MemberController@update');
 Route::get('/member/pendaftaran', 'App\Http\Controllers\MemberController@create');
+Route::get('/member/profil', 'App\Http\Controllers\MemberController@detail')->name('profil');
 Route::post('/member/pendaftaran', 'App\Http\Controllers\MemberController@store');
 Route::delete('/member/{user}', 'App\Http\Controllers\MemberController@destroy');
 

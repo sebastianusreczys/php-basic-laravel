@@ -62,11 +62,6 @@
         </div>
     </div>
 
-
-    {{-- <div class="container">
-        <h4>Pendaftaran Member</h4>
-        
-    </div> --}}
 @endsection
 <script>
     function previewImage() {

@@ -20,13 +20,20 @@ class MemberController extends Controller
     public function index()
     {
         $user = User::all();
-        return view('member.list', ['users' => $user]);
+        return view('members', ['users' => $user]);
     }
+
+    public function detail(Request $request)
+    {
+        $user = User::where('email', $request->session()->get('username'))->first();
+        return view('member.profil', ['user' => $user]);
+    }
+
     public function listJson()
     {
         $user = User::all();
 
-        return view('member.list', ['users' => json_encode($user)]);
+        return view('members', ['users' => json_encode($user)]);
     }
 
     /**
@@ -47,11 +54,10 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->file('gambar')->store('post-images');
+
         $user = new User();
         $user->nama = $request->name;
         $user->password = Crypt::encryptString($request->password);
-        // $user->password = Hash::make($request->password);
         $user->no_hp = $request->nohandphone;
         $user->tanggal_lahir = $request->tangallahir;
         $user->email = $request->email;
@@ -73,7 +79,7 @@ class MemberController extends Controller
             $user->foto = $request->file('gambar')->store('post-images');
         }
         $user->save();
-        return redirect('member/list')->with('status', 'Selamat anda berhasil mendaftar!');
+        return route('');
     }
 
     /**
@@ -122,7 +128,7 @@ class MemberController extends Controller
             ->update(
                 $validateData
             );
-        return redirect('member/list')->with('status', 'Data berhasil di update!');
+        return redirect('member/profil')->with('status', 'Data berhasil di update!');
     }
 
     /**
@@ -134,6 +140,6 @@ class MemberController extends Controller
     public function destroy(User $user)
     {
         User::destroy($user->id);
-        return Redirect('/member/list')->with('status', 'Selamat anda berhasil dihapus!');
+        return Redirect('/member/profil')->with('status', 'Selamat anda berhasil dihapus!');
     }
 }

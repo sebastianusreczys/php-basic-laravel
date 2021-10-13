@@ -33,10 +33,10 @@
                         <td>{{ $m->no_ktp }}</td>
                         <td><img src="{{ asset('storage/' . $m->foto) }} " alt="" width="50"></td>
                         <td>
-                            <button class="btn btn-success"><a href="{{ $m->id }}/edit">
+                            <button class="btn btn-success"><a href="{{ $user->id }}/edit">
                                     <i class="fa fa-edit text-white"></i> </a></button>
                             <i>
-                                <form action="{{ $m->id }}" method="post" class="d-inline">
+                                <form action="{{ $user->id }}" method="post" class="d-inline">
                                     @method('delete')
                                     @csrf
                                     <a href="#" class=""></a>

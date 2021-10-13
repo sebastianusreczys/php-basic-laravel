@@ -1,4 +1,4 @@
-@extends('layout/main')
+@extends('layout.admin')
 
 @section('title', 'Edit Data Users')
 

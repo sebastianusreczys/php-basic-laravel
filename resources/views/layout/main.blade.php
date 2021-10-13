@@ -40,11 +40,8 @@
                                 {{ Session::get('username') }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Profile</a>
-                                <form method="POST" action="{{ '/auth/logout' }}">
-                                    @csrf
-                                    <button type="submit">Logout</button>
-                                </form>
+                                <a class="dropdown-item" href="{{ '/member/profil' }}">Profile</a>
+                                <a class="dropdown-item" href="{{ '/auth/logout' }}">Logout</a>
                             </div>
                         </div>
                     @else
@@ -55,6 +52,10 @@
             </div>
         </div>
     </nav>
+
+    <div class="container" >
+    <h1> Selamat Datang</h1>
+    </div>
 
     @yield('container')
 

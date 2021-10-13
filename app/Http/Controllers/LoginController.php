@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
-use SebastianBergmann\Environment\Console;
 
 class LoginController extends Controller
 {
@@ -19,31 +18,55 @@ class LoginController extends Controller
             return view('auth.login');
         }
     }
-    public function authenticate(Request $request)
+
+    public function loginAdmin(Request $request)
     {
-        if ($request->session()->has('username')) {
-            $request->session()->forget('username');
-            return view('auth.login');
+        if ($request->session()->has('is_admin')) {
+            if ($request->session()->get('is_admin')) {
+                return back();
+            }
         } else {
-            $matchThese = ['email' => $request->email, 'is_admin' => false];
-            $user = User::where($matchThese)->first();
+            return route('login');
+        }
+    }
+
+    public function authenticate(Request $request) {    
+        
+            $queryUserNonAdmin = ['email' => $request->email, 'is_admin' => false];
+            $queryUserAdmin = ['email' => $request->email, 'password' => $request->password , 'is_admin' => true];
+            
+            $user = User::where($queryUserNonAdmin)->first();
+            $userAdmin = User::where($queryUserAdmin)->first();
 
             if ($user) {
-
                 if (Crypt::decryptString($user->password) == $request->password) {
                     $request->session()->put('username', $request->email);
                     $request->session()->put('email', $user->email);
-                    return redirect()->route('list');
+                    return redirect()->route('profil');
                 } else {
-                    return back()->withErrors('password', "Password Invalid!");
+                    $request->session()->flash('login-error', 'Password Salah');
+                    return back();
                 }
             }
+            elseif ($userAdmin){
+                return route('admin');
+            }
+            else{
+                $request->session()->flash('login-error', 'User tidak Terdaftar!');
+                return back();
+            }
+    }
+
+    public function logout(){
+        if (session()->has('username')) {
+            session()->forget('username');
+            session()->forget('is_admin');
+            session()->flash('login-success', 'Anda Telah Logout');
         }
+        
+        return redirect('auth/login');
+
     }
-    // logout
-    public function logout()
-    {
-        $request->session()->forget('username');
-        return view('/');
-    }
+
+
 }
