@@ -3,6 +3,11 @@
 @section('container')
     <div class="container mt-3">
         <a href="/admin/create" class="btn btn-primary">Tambah Data User</a>
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
         <h1>Daftar Data Member</h1>
         <table class="table table-responsive table-striped table-hover table-bordered">
             <thead>
@@ -15,7 +20,6 @@
                     <th scope="col">Jenis Kelamin</th>
                     <th scope="col">No Ktp</th>
                     <th scope="col">foto</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -40,7 +44,6 @@
                                     <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                                 </form>
                             </i>
-
                         </td>
                     </tr>
                 @endforeach

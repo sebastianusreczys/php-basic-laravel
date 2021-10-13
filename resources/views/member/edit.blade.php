@@ -1,7 +1,5 @@
 @extends('layout/main')
-
 @section('title', 'Form Ubah Member')
-
 @section('container')
     <div class="container">
         <div class="row">

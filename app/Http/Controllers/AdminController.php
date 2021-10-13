@@ -72,7 +72,7 @@ class AdminController extends Controller
             ->update(
                 $validateData
             );
-        return redirect('admin/view');
+        return redirect('admin/view')->with('status', 'Data berhasil diupdate!');
     }
     public function delete(User $user)
     {

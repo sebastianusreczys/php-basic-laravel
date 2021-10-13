@@ -53,7 +53,7 @@
                             <img class="img-fluid img-preview mb-3 col-sm-5" alt="">
                         @endif
                         <input type="file" class="form-control  @error('gambar') is-invalid @enderror " name="gambar"
-                            id="gambar" onchange="previewImage()">
+                            id="gambar" onchange="previewImage()" value="{{ $users->foto }}">
                         @error('gambar')<div class=" invalid-feedback"> {{ $message }}</div> @enderror
                     </div>
                     <div class="d-grid gap-2 col-6 mx-auto">

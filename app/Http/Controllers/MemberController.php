@@ -22,6 +22,12 @@ class MemberController extends Controller
         $user = User::all();
         return view('member.list', ['users' => $user]);
     }
+    public function listJson()
+    {
+        $user = User::all();
+
+        return view('member.list', ['users' => json_encode($user)]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -67,7 +73,7 @@ class MemberController extends Controller
             $user->foto = $request->file('gambar')->store('post-images');
         }
         $user->save();
-        return redirect('member/list');
+        return redirect('member/list')->with('status', 'Selamat anda berhasil mendaftar!');
     }
 
     /**
@@ -102,6 +108,7 @@ class MemberController extends Controller
     public function update(Request $request, User $user)
     {
         $rules = [
+            'email' => 'required|email|unique:users,email',
             'foto' => 'image|file|max:1024'
         ];
         $validateData = $request->validate($rules);
@@ -115,7 +122,7 @@ class MemberController extends Controller
             ->update(
                 $validateData
             );
-        return redirect('member/list');
+        return redirect('member/list')->with('status', 'Data berhasil di update!');
     }
 
     /**
@@ -127,6 +134,6 @@ class MemberController extends Controller
     public function destroy(User $user)
     {
         User::destroy($user->id);
-        return Redirect('/member/list');
+        return Redirect('/member/list')->with('status', 'Selamat anda berhasil dihapus!');
     }
 }
